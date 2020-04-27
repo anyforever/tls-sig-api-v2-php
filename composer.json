@@ -1,10 +1,10 @@
 {
     "require": { },
-    "name": "tencent/tls-sig-api-v2",
-    "description": "tls-sig-api-v2 适用于腾讯云通信生成用户账号签名。",
+    "name": "anyforever/tls-sig-api-v2",
+    "description": "tls-sig-api-v2 适用于腾讯云通信生成用户账号签名。此库增加了生成PrivateMapKey功能，如非必要，建议使用官方库。",
     "type": "library",
     "keywords": [ "tencent", "im" ],
-    "homepage": "https://github.com/tencentyun/tls-sig-api-v2-php",
+    "homepage": "https://github.com/anyforever/tls-sig-api-v2-php",
     "license": "MIT",
     "authors": [
         {
