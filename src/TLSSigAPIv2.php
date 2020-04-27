@@ -76,7 +76,7 @@ class TLSSigAPIv2 {
         $userbuf .= pack('a'.strlen($account),$account);  //buffAccount   wAccountLen 第三方自己的帐号字符
         $userbuf .= pack('N',$this->sdkappid);          //dwSdkAppid    unsigned int/4  sdkappid
         $userbuf .= pack('N',$dwAuthID);                  //dwAuthId  unsigned int/4  群组号码/音视频房间号
-        $userbuf .= pack('N', $dwExpTime);        //dwExpTime unsigned int/4  过期时间 （当前时间 + 有效期（单位：秒，建议300秒））
+        $userbuf .= pack('N', time() + $dwExpTime);        //dwExpTime unsigned int/4  过期时间 （当前时间 + 有效期（单位：秒，建议300秒））
         $userbuf .= pack('N', $dwPrivilegeMap);          //dwPrivilegeMap unsigned int/4  权限位       
         $userbuf .= pack('N', $dwAccountType);                       //dwAccountType  unsigned int/4 
         return $userbuf;
@@ -167,6 +167,19 @@ class TLSSigAPIv2 {
         return $this->__genSig($identifier, $expire, $userbuf, true);
     }
 
+    /**
+     * 生成privateMapKey
+     * @param string $userid 用户名
+     * @param uint $roomid 房间号
+     * @param uint $expire privateMapKey有效期，出于安全考虑建议为300秒，您可以根据您的业务场景设置其他值。
+     * @param uint $privilege 权限位，默认255
+     * @param uint $accounttype 账号类型
+     * @return string 生成的privateMapKey 失败时为false
+     */
+    public function genPrivateMapKey($userid, $roomid, $expire = 300, $privilege = 255, $accounttype = 0) {
+    	$userbuf = $this->getUserBuf($userid, $roomid, $expire, $privilege, $accounttype);
+    	return $this->__genSig($userid, $expire, $userbuf, true);
+    }
 
     /**
      * 验证签名。
